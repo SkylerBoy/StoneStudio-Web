@@ -73,9 +73,8 @@ Para probar ese modo en local: `PUBLIC_VISTA_PREVIA=true npm run build`.
 2. **Formularios:** en *Site configuration → Forms*, activar la detección de formularios
    (en sitios nuevos viene apagada). Después, en *Form notifications*, añadir el email
    del estudio para recibir cada solicitud.
-3. **Dominio:** en *Domain management*, añadir el dominio propio. Si no es
-   `bystonestudio.com`, cambiarlo también en `astro.config.mjs` (`site`) y en
-   `public/robots.txt`.
+3. **Dominio:** en *Domain management*, añadir el dominio propio y marcarlo como principal.
+   La web toma la dirección de Netlify al compilar, así que no hay que tocar código.
 4. **Panel en producción:** entrar en `https://<dominio>/keystatic`. La primera vez,
    Keystatic guía para crear una GitHub App; al terminar, añadir en Netlify las variables
    que indica (`KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`,

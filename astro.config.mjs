@@ -35,9 +35,10 @@ export default defineConfig(
           }
         : {
               ...comun,
-              // Dominio provisional: cambiarlo cuando se compre el definitivo (lo usan el
-              // sitemap y las etiquetas canonical/Open Graph).
-              site: "https://bystonestudio.com",
+              // Netlify pone en URL la dirección principal del sitio (la *.netlify.app o el
+              // dominio propio cuando se añada), así canonical, Open Graph y sitemap apuntan
+              // siempre a una dirección que existe. El valor de respaldo es para builds locales.
+              site: process.env.URL || "https://bystonestudio.com",
               adapter: netlify(),
               integrations: [...comun.integrations, keystatic()],
           },
