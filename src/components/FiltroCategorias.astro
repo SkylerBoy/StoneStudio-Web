@@ -4,11 +4,12 @@
  * en JavaScript: así cada categoría tiene su URL para compartir y para Google.
  */
 import { CATEGORIAS } from "../lib/proyectos";
+import { ruta, rutaActual } from "../lib/rutas";
 
-const ruta = Astro.url.pathname.replace(/\/$/, "");
+const actual = rutaActual(Astro.url);
 const opciones = [
-    { href: "/portfolio", texto: "Todo" },
-    ...Object.entries(CATEGORIAS).map(([clave, c]) => ({ href: `/portfolio/${clave}`, texto: c.nombre })),
+    { destino: "/portfolio", texto: "Todo" },
+    ...Object.entries(CATEGORIAS).map(([clave, c]) => ({ destino: `/portfolio/${clave}`, texto: c.nombre })),
 ];
 ---
 
@@ -16,8 +17,8 @@ const opciones = [
     {
         opciones.map((o) => (
             <a
-                href={o.href}
-                aria-current={ruta === o.href ? "page" : undefined}
+                href={ruta(o.destino)}
+                aria-current={actual === o.destino ? "page" : undefined}
                 class="rounded-full border border-line px-4 py-2 text-sm transition-colors hover:border-text aria-[current=page]:border-text aria-[current=page]:bg-text aria-[current=page]:text-background"
             >
                 {o.texto}

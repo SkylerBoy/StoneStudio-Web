@@ -53,6 +53,19 @@ la foto grande de arriba.
 Fotos: mejor en JPG a unos 2500–3000 px por el lado largo. Astro genera los tamaños
 pequeños; subir archivos de 20 MB solo hace más lento el repositorio.
 
+## Vista previa en GitHub Pages
+
+Cada push a `dev/skyler` o `main` publica una vista previa en
+<https://skylerboy.github.io/StoneStudio-Web/> (workflow `.github/workflows/vista-previa.yml`).
+Es para enseñar la web mientras se prepara, no el hosting final: Pages solo sirve archivos,
+así que ahí no hay panel de edición y el formulario aparece desactivado. Las páginas llevan
+`noindex` y un aviso de «vista previa».
+
+La primera vez hay que activarlo en *Settings → Pages → Source: GitHub Actions* y volver a
+lanzar el workflow desde la pestaña *Actions*.
+
+Para probar ese modo en local: `PUBLIC_VISTA_PREVIA=true npm run build`.
+
 ## Publicar en Netlify (primera vez)
 
 1. En Netlify, «Add new site» → importar este repositorio. La configuración ya está en

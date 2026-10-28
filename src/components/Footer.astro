@@ -1,4 +1,5 @@
 ---
+import { ruta } from "../lib/rutas";
 import { ajustes } from "../lib/ajustes";
 const anio = new Date().getFullYear();
 ---
@@ -10,7 +11,7 @@ const anio = new Date().getFullYear();
             <p class="mt-4 max-w-md text-muted">
                 Cuéntanos qué necesitas y te preparamos un presupuesto sin compromiso.
             </p>
-            <a href="/presupuesto" class="boton mt-8">Pedir presupuesto</a>
+            <a href={ruta("/presupuesto")} class="boton mt-8">Pedir presupuesto</a>
         </div>
 
         <div>
@@ -43,10 +44,10 @@ const anio = new Date().getFullYear();
         <div>
             <h2 class="etiqueta mb-4">Estudio</h2>
             <ul class="space-y-2 text-sm">
-                <li><a class="enlace" href="/portfolio">Portfolio</a></li>
-                <li><a class="enlace" href="/marcas">Marcas y producto</a></li>
-                <li><a class="enlace" href="/bodas-y-eventos">Bodas y eventos</a></li>
-                <li><a class="enlace" href="/estudio">Sobre nosotros</a></li>
+                <li><a class="enlace" href={ruta("/portfolio")}>Portfolio</a></li>
+                <li><a class="enlace" href={ruta("/marcas")}>Marcas y producto</a></li>
+                <li><a class="enlace" href={ruta("/bodas-y-eventos")}>Bodas y eventos</a></li>
+                <li><a class="enlace" href={ruta("/estudio")}>Sobre nosotros</a></li>
             </ul>
         </div>
     </div>
@@ -54,8 +55,8 @@ const anio = new Date().getFullYear();
     <div class="contenedor flex flex-col gap-2 border-t border-line py-6 text-xs text-muted sm:flex-row sm:justify-between">
         <p>© {anio} Stone Studio. Fotografía y edición.</p>
         <p class="flex gap-4">
-            <a class="enlace" href="/aviso-legal">Aviso legal</a>
-            <a class="enlace" href="/privacidad">Privacidad</a>
+            <a class="enlace" href={ruta("/aviso-legal")}>Aviso legal</a>
+            <a class="enlace" href={ruta("/privacidad")}>Privacidad</a>
         </p>
     </div>
 </footer>

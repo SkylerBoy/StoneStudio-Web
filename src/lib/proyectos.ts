@@ -3,13 +3,14 @@
  * nombres de categoría para que todas las páginas los muestren igual.
  */
 import { getCollection, type CollectionEntry } from "astro:content";
+import { ruta } from "./rutas";
 
 export type Proyecto = CollectionEntry<"proyectos">;
 export type Categoria = Proyecto["data"]["categoria"];
 
 export const CATEGORIAS: Record<Categoria, { nombre: string; servicio: string }> = {
-    marcas: { nombre: "Marcas y producto", servicio: "/marcas" },
-    eventos: { nombre: "Bodas y eventos", servicio: "/bodas-y-eventos" },
+    marcas: { nombre: "Marcas y producto", servicio: ruta("/marcas") },
+    eventos: { nombre: "Bodas y eventos", servicio: ruta("/bodas-y-eventos") },
 };
 
 export async function obtenerProyectos(categoria?: Categoria): Promise<Proyecto[]> {
@@ -18,7 +19,7 @@ export async function obtenerProyectos(categoria?: Categoria): Promise<Proyecto[
 }
 
 export function urlProyecto(p: Proyecto): string {
-    return `/portfolio/${p.data.categoria}/${p.id}`;
+    return ruta(`/portfolio/${p.data.categoria}/${p.id}`);
 }
 
 const formatoFecha = new Intl.DateTimeFormat("es-ES", { month: "long", year: "numeric" });

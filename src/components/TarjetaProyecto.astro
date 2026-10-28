@@ -11,6 +11,10 @@ interface Props {
 }
 const { proyecto, formato = "vertical", prioridad = false } = Astro.props;
 const { titulo, categoria, resumen, portada, portadaAlt } = proyecto.data;
+
+// Se recorta al generar la imagen, no solo con CSS: si no, una foto apaisada en una tarjeta
+// vertical se amplía desde una versión pequeña y se ve borrosa.
+const proporcion = formato === "vertical" ? 5 / 4 : 2 / 3;
 ---
 
 <article class="group">
@@ -24,6 +28,9 @@ const { titulo, categoria, resumen, portada, portadaAlt } = proyecto.data;
             <Image
                 src={portada}
                 alt={portadaAlt}
+                width={1200}
+                height={Math.round(1200 * proporcion)}
+                fit="cover"
                 widths={[480, 800, 1200]}
                 sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                 loading={prioridad ? "eager" : "lazy"}

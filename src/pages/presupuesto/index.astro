@@ -6,6 +6,7 @@
  *
  * Si se cambia de hosting, hay que sustituir esto por otro servicio (Formspree, Web3Forms…).
  */
+import { ruta, VISTA_PREVIA } from "../../lib/rutas";
 import Base from "../../layouts/Base.astro";
 import CabeceraPagina from "../../components/CabeceraPagina.astro";
 import { ajustes } from "../../lib/ajustes";
@@ -35,7 +36,7 @@ const etiqueta = "text-sm font-medium";
         <form
             name="presupuesto"
             method="POST"
-            action="/presupuesto/gracias"
+            action={ruta("/presupuesto/gracias")}
             data-netlify="true"
             netlify-honeypot="campo-trampa"
             class="grid gap-8 sm:grid-cols-2"
@@ -84,12 +85,22 @@ const etiqueta = "text-sm font-medium";
             <label class="flex items-start gap-3 text-sm sm:col-span-2">
                 <input type="checkbox" name="privacidad" value="aceptada" required class="mt-0.5 size-4 accent-text" />
                 <span>
-                    He leído la <a href="/privacidad" class="enlace">política de privacidad</a> y acepto que
+                    He leído la <a href={ruta("/privacidad")} class="enlace">política de privacidad</a> y acepto que
                     usemos estos datos para responder a mi solicitud. *
                 </span>
             </label>
             <div class="sm:col-span-2">
-                <button type="submit" class="boton">Enviar solicitud</button>
+                {
+                    VISTA_PREVIA && (
+                        <p class="mb-4 border-l-2 border-accent pl-4 text-sm text-muted">
+                            Esto es una vista previa: el formulario todavía no envía. Para escribirnos, usa
+                            el email o WhatsApp de al lado.
+                        </p>
+                    )
+                }
+                <button type="submit" class="boton disabled:cursor-not-allowed disabled:opacity-50" disabled={VISTA_PREVIA}>
+                    Enviar solicitud
+                </button>
             </div>
         </form>
 

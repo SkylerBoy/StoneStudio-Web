@@ -1,0 +1,50 @@
+# Vista previa en GitHub Pages: https://skylerboy.github.io/StoneStudio-Web/
+#
+# Solo para enseñar la web mientras se prepara. El hosting final es Netlify (panel de edición
+# y formulario necesitan su servidor); aquí se compila en modo estático con
+# PUBLIC_VISTA_PREVIA=true, que desactiva el formulario y pide a Google que no indexe.
+#
+# Requisito único: Settings → Pages → Source: «GitHub Actions».
+name: Vista previa (GitHub Pages)
+
+on:
+    push:
+        branches: [dev/skyler, main]
+    workflow_dispatch:
+
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
+# Si llegan dos pushes seguidos, solo se publica el último.
+concurrency:
+    group: pages
+    cancel-in-progress: true
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v5
+              with:
+                  node-version-file: .nvmrc
+                  cache: npm
+            - run: npm ci
+            - run: npm run build
+              env:
+                  PUBLIC_VISTA_PREVIA: "true"
+            - uses: actions/upload-pages-artifact@v4
+              with:
+                  path: dist
+
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+            - id: deployment
+              uses: actions/deploy-pages@v4

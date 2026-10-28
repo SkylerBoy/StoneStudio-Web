@@ -1,4 +1,5 @@
 ---
+import { ruta } from "../lib/rutas";
 import Base from "../layouts/Base.astro";
 ---
 
@@ -8,8 +9,8 @@ import Base from "../layouts/Base.astro";
         <h1 class="titulo-display mt-4 max-w-3xl text-5xl sm:text-7xl">Esta página no existe.</h1>
         <p class="mt-6 max-w-xl text-lg text-muted">Puede que la dirección esté mal escrita o que la hayamos movido.</p>
         <div class="mt-10 flex flex-wrap gap-4">
-            <a href="/" class="boton">Ir al inicio</a>
-            <a href="/portfolio" class="boton-secundario">Ver el portfolio</a>
+            <a href={ruta("/")} class="boton">Ir al inicio</a>
+            <a href={ruta("/portfolio")} class="boton-secundario">Ver el portfolio</a>
         </div>
     </section>
 </Base>

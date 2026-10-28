@@ -3,6 +3,7 @@
  * Página para parejas y empresas con un evento. Pesa más la confianza que el catálogo:
  * proceso, testimonios y preguntas frecuentes, además de los trabajos.
  */
+import { ruta } from "../lib/rutas";
 import Base from "../layouts/Base.astro";
 import CabeceraPagina from "../components/CabeceraPagina.astro";
 import TarjetaProyecto from "../components/TarjetaProyecto.astro";
@@ -14,7 +15,7 @@ const proyectos = (await obtenerProyectos("eventos")).slice(0, 3);
 
 <Base titulo="Bodas y eventos" descripcion={bodas.intro}>
     <CabeceraPagina etiqueta="Bodas y eventos" titulo={bodas.titular} intro={bodas.intro}>
-        <a href="/presupuesto?servicio=boda" class="boton mt-10">Consultar disponibilidad</a>
+        <a href={ruta("/presupuesto?servicio=boda")} class="boton mt-10">Consultar disponibilidad</a>
     </CabeceraPagina>
 
     {

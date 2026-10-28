@@ -1,4 +1,5 @@
 ---
+import { ruta } from "../lib/rutas";
 import Base from "../layouts/Base.astro";
 import CabeceraPagina from "../components/CabeceraPagina.astro";
 import TarjetaProyecto from "../components/TarjetaProyecto.astro";
@@ -10,7 +11,7 @@ const proyectos = (await obtenerProyectos("marcas")).slice(0, 3);
 
 <Base titulo="Marcas y producto" descripcion={marcas.intro}>
     <CabeceraPagina etiqueta="Marcas y producto" titulo={marcas.titular} intro={marcas.intro}>
-        <a href="/presupuesto?servicio=marcas" class="boton mt-10">Pedir presupuesto</a>
+        <a href={ruta("/presupuesto?servicio=marcas")} class="boton mt-10">Pedir presupuesto</a>
     </CabeceraPagina>
 
     <section class="contenedor" aria-labelledby="titulo-servicios">
@@ -33,7 +34,7 @@ const proyectos = (await obtenerProyectos("marcas")).slice(0, 3);
             <section class="contenedor pt-28">
                 <div class="mb-10 flex items-end justify-between gap-4">
                     <h2 class="titulo-display text-4xl sm:text-6xl">Algunos trabajos</h2>
-                    <a href="/portfolio/marcas" class="enlace shrink-0 text-sm">Ver todos</a>
+                    <a href={ruta("/portfolio/marcas")} class="enlace shrink-0 text-sm">Ver todos</a>
                 </div>
                 <div class="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
                     {proyectos.map((p) => <TarjetaProyecto proyecto={p} />)}

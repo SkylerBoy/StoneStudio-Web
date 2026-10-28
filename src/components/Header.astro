@@ -3,20 +3,22 @@
  * Cabecera. En la portada va transparente y en blanco sobre la foto; al bajar (o en el
  * resto de páginas) pasa a fondo hueso. En móvil el menú se abre a pantalla completa.
  */
+import { ruta, rutaActual } from "../lib/rutas";
+
 interface Props {
     sobreFoto?: boolean;
 }
 const { sobreFoto = false } = Astro.props;
 
 const enlaces = [
-    { href: "/portfolio", texto: "Portfolio" },
-    { href: "/marcas", texto: "Marcas" },
-    { href: "/bodas-y-eventos", texto: "Bodas y eventos" },
-    { href: "/estudio", texto: "Estudio" },
-];
+    { destino: "/portfolio", texto: "Portfolio" },
+    { destino: "/marcas", texto: "Marcas" },
+    { destino: "/bodas-y-eventos", texto: "Bodas y eventos" },
+    { destino: "/estudio", texto: "Estudio" },
+].map((e) => ({ ...e, href: ruta(e.destino) }));
 
-const ruta = Astro.url.pathname.replace(/\/$/, "") || "/";
-const activo = (href: string) => ruta === href || ruta.startsWith(`${href}/`);
+const actual = rutaActual(Astro.url);
+const activo = (destino: string) => actual === destino || actual.startsWith(`${destino}/`);
 ---
 
 <header
@@ -28,7 +30,7 @@ const activo = (href: string) => ruta === href || ruta.startsWith(`${href}/`);
     ]}
 >
     <div class="contenedor flex h-16 items-center justify-between sm:h-20">
-        <a href="/" class="font-serif text-2xl tracking-tight sm:text-3xl" aria-label="Stone Studio, inicio">
+        <a href={ruta("/")} class="font-serif text-2xl tracking-tight sm:text-3xl" aria-label="Stone Studio, inicio">
             Stone Studio
         </a>
 
@@ -37,7 +39,7 @@ const activo = (href: string) => ruta === href || ruta.startsWith(`${href}/`);
                 enlaces.map((e) => (
                     <a
                         href={e.href}
-                        aria-current={activo(e.href) ? "page" : undefined}
+                        aria-current={activo(e.destino) ? "page" : undefined}
                         class="text-sm decoration-1 underline-offset-8 hover:underline aria-[current=page]:underline"
                     >
                         {e.texto}
@@ -45,7 +47,7 @@ const activo = (href: string) => ruta === href || ruta.startsWith(`${href}/`);
                 ))
             }
             <a
-                href="/presupuesto"
+                href={ruta("/presupuesto")}
                 class:list={[
                     "rounded-full border px-5 py-2 text-sm font-medium transition-colors",
                     sobreFoto
@@ -92,7 +94,7 @@ const activo = (href: string) => ruta === href || ruta.startsWith(`${href}/`);
                 </a>
             ))
         }
-        <a href="/presupuesto" class="boton mt-6 self-start">Pedir presupuesto</a>
+        <a href={ruta("/presupuesto")} class="boton mt-6 self-start">Pedir presupuesto</a>
     </nav>
 </div>
 

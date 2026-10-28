@@ -3,6 +3,7 @@
  * Portada. Foto grande (la del primer proyecto destacado), dos entradas según quién llega
  * (marcas o parejas/eventos: buscan cosas distintas) y una selección de trabajos.
  */
+import { ruta } from "../lib/rutas";
 import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import TarjetaProyecto from "../components/TarjetaProyecto.astro";
@@ -32,7 +33,9 @@ const entradas = (["marcas", "eventos"] as Categoria[]).map((categoria) => ({
                     src={principal.data.portada}
                     alt={principal.data.portadaAlt}
                     widths={[800, 1400, 2000, 2800]}
-                    sizes="100vw"
+                    // En vertical la foto (apaisada) se recorta a lo alto: hace falta más
+                    // anchura de la que ocupa la pantalla.
+                    sizes="(orientation: portrait) 150vh, 100vw"
                     loading="eager"
                     fetchpriority="high"
                     class="absolute inset-0 h-full w-full object-cover"
@@ -43,8 +46,8 @@ const entradas = (["marcas", "eventos"] as Categoria[]).map((categoria) => ({
         <div class="contenedor relative pb-16 text-background sm:pb-24">
             <h1 class="titulo-display max-w-4xl text-5xl sm:text-7xl lg:text-8xl">{inicio.titular}</h1>
             <div class="mt-8 flex flex-wrap items-center gap-4">
-                <a href="/portfolio" class="boton bg-background text-text hover:bg-surface">Ver trabajos</a>
-                <a href="/presupuesto" class="rounded-full border border-background px-6 py-3 text-sm font-medium transition-colors hover:bg-background hover:text-text">
+                <a href={ruta("/portfolio")} class="boton bg-background text-text hover:bg-surface">Ver trabajos</a>
+                <a href={ruta("/presupuesto")} class="rounded-full border border-background px-6 py-3 text-sm font-medium transition-colors hover:bg-background hover:text-text">
                     Pedir presupuesto
                 </a>
             </div>
@@ -66,11 +69,14 @@ const entradas = (["marcas", "eventos"] as Categoria[]).map((categoria) => ({
         {
             entradas.map((e) => (
                 <a href={e.servicio} class="group block">
-                    <div class="aspect-[4/5] overflow-hidden bg-surface sm:aspect-[5/4]">
+                    <div class="aspect-[5/4] overflow-hidden bg-surface">
                         {e.proyecto && (
                             <Image
                                 src={e.proyecto.data.portada}
                                 alt=""
+                                width={1300}
+                                height={1040}
+                                fit="cover"
                                 widths={[600, 900, 1300]}
                                 sizes="(min-width: 768px) 50vw, 100vw"
                                 class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
@@ -92,7 +98,7 @@ const entradas = (["marcas", "eventos"] as Categoria[]).map((categoria) => ({
             <section class="contenedor pt-28">
                 <div class="mb-10 flex items-end justify-between gap-4">
                     <h2 class="titulo-display text-4xl sm:text-6xl">Trabajos recientes</h2>
-                    <a href="/portfolio" class="enlace shrink-0 text-sm">
+                    <a href={ruta("/portfolio")} class="enlace shrink-0 text-sm">
                         Ver todo el portfolio
                     </a>
                 </div>

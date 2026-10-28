@@ -18,6 +18,8 @@ Antes de dar por buena una tarea: `npm run build` y `npm run check` sin errores.
 - **Contenido editable = Keystatic.** Si un texto o una foto lo va a cambiar el estudio, va
   en `keystatic.config.ts`, no escrito en la página. Los campos de proyectos están
   duplicados en `src/content.config.ts`: si se toca uno, se toca el otro.
+- **Enlaces internos siempre con `ruta()`** de `src/lib/rutas.ts`, nunca `href="/..."` a
+  mano: la vista previa de GitHub Pages vive bajo `/StoneStudio-Web/` y se romperían.
 - **Fotos en `src/assets/`, nunca en `public/`**, para que Astro las optimice. Siempre con
   `<Image>` o `getImage()` de `astro:assets` y con `alt`.
 - **Paleta y fuentes:** tokens del bloque `@theme` de `src/styles/global.css`
