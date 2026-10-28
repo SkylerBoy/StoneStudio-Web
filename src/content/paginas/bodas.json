@@ -1,0 +1,46 @@
+{
+  "titular": "Bodas y eventos, contados tal como se vivieron",
+  "intro": "Nos gusta estar sin que se note. Fotografiamos lo que pasa, cómo os miráis y lo que no da tiempo a ver el mismo día, y después lo editamos con el mismo cuidado.",
+  "proceso": [
+    {
+      "paso": "Nos conocemos",
+      "descripcion": "Una llamada o un café para saber cómo imagináis el día y si encajamos."
+    },
+    {
+      "paso": "Preparamos el día",
+      "descripcion": "Horarios, lugares, momentos imprescindibles y personas que no pueden faltar."
+    },
+    {
+      "paso": "El gran día",
+      "descripcion": "Estamos desde los preparativos hasta la fiesta, sin interrumpir."
+    },
+    {
+      "paso": "Edición y entrega",
+      "descripcion": "Seleccionamos y editamos las fotos, y os las entregamos en una galería online privada."
+    }
+  ],
+  "testimonios": [
+    {
+      "autor": "Pareja de ejemplo",
+      "texto": "Testimonio de ejemplo. Aquí irá lo que cuentan las parejas sobre su experiencia con el estudio."
+    },
+    {
+      "autor": "Empresa de ejemplo",
+      "texto": "Testimonio de ejemplo de un evento corporativo."
+    }
+  ],
+  "preguntas": [
+    {
+      "pregunta": "¿Con cuánta antelación hay que reservar?",
+      "respuesta": "Respuesta de ejemplo. Para bodas, lo habitual es reservar entre seis y doce meses antes."
+    },
+    {
+      "pregunta": "¿Cuándo recibimos las fotos?",
+      "respuesta": "Respuesta de ejemplo. Un adelanto la semana siguiente y el reportaje completo en unas semanas."
+    },
+    {
+      "pregunta": "¿Os desplazáis fuera de la ciudad?",
+      "respuesta": "Respuesta de ejemplo. Sí; el desplazamiento se incluye en el presupuesto."
+    }
+  ]
+}

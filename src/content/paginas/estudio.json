@@ -1,0 +1,14 @@
+{
+  "titular": "Un estudio pequeño, a propósito",
+  "historia": "Texto de ejemplo. Aquí va la historia de Stone Studio: quiénes sois, cómo empezasteis y por qué os dedicáis a esto.\n\nUn segundo párrafo sobre cómo trabajáis: el trato cercano, el cuidado en la edición y lo que os diferencia.",
+  "equipo": [
+    {
+      "nombre": "Nombre Apellido",
+      "rol": "Fotografía y dirección"
+    },
+    {
+      "nombre": "Nombre Apellido",
+      "rol": "Edición y retoque"
+    }
+  ]
+}

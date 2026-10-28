@@ -1,0 +1,22 @@
+{
+  "titular": "Fotografía de producto y contenido para marcas",
+  "intro": "Ayudamos a que tu producto se vea como es: con buena luz, una dirección de arte coherente y un retoque que no lo convierte en otra cosa. Te entregamos las fotos preparadas para tu web, tu catálogo y tus redes.",
+  "servicios": [
+    {
+      "nombre": "Producto sobre fondo",
+      "descripcion": "Fichas limpias y homogéneas para tienda online y marketplaces."
+    },
+    {
+      "nombre": "Bodegón y ambiente",
+      "descripcion": "El producto en su contexto, con atrezo y una luz pensada para tu marca."
+    },
+    {
+      "nombre": "Campañas y redes",
+      "descripcion": "Series de fotos para lanzamientos, temporadas y contenido de Instagram."
+    },
+    {
+      "nombre": "Edición y retoque",
+      "descripcion": "Retoque de fotos que ya tienes: color, limpieza, recortes y fondos."
+    }
+  ]
+}
