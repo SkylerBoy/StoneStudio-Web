@@ -75,11 +75,29 @@ Para probar ese modo en local: `PUBLIC_VISTA_PREVIA=true npm run build`.
    del estudio para recibir cada solicitud.
 3. **Dominio:** en *Domain management*, añadir el dominio propio y marcarlo como principal.
    La web toma la dirección de Netlify al compilar, así que no hay que tocar código.
-4. **Panel en producción:** entrar en `https://<dominio>/keystatic`. La primera vez,
-   Keystatic guía para crear una GitHub App; al terminar, añadir en Netlify las variables
-   que indica (`KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`,
-   `KEYSTATIC_SECRET` y `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`) y volver a publicar. Cada
-   persona del estudio necesita una cuenta de GitHub con acceso al repositorio.
+4. **Panel en producción (una sola vez).** Keystatic solo deja crear su GitHub App desde
+   el servidor de desarrollo, así que se hace en local:
+
+   ```bash
+   PUBLIC_KEYSTATIC_GITHUB=true npm run dev
+   ```
+
+   - Abrir <http://127.0.0.1:4321/keystatic>. En «Deployed URL» poner la dirección de
+     Netlify (p. ej. `https://magenta-pastelito-5a244f.netlify.app`) y pulsar *Create
+     GitHub App*. GitHub pide confirmar; al volver, Keystatic escribe un `.env` con las
+     claves (no se sube al repositorio).
+   - Instalar la App en el repositorio cuando Keystatic lo pida (*Install GitHub App* →
+     solo `StoneStudio-Web`).
+   - Copiar las cuatro variables del `.env` a Netlify (*Project configuration →
+     Environment variables*): `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET`,
+     `KEYSTATIC_SECRET` y `PUBLIC_KEYSTATIC_GITHUB_APP_SLUG`. Después, *Deploys → Trigger
+     deploy*.
+   - Si más adelante cambia el dominio, añadir su URL de retorno
+     (`https://<dominio>/api/keystatic/github/oauth/callback`) en los ajustes de la App en
+     GitHub.
+
+   Cada persona del estudio necesita una cuenta de GitHub con acceso al repositorio. Los
+   cambios se guardan en la rama por defecto del repositorio, que es la que publica Netlify.
 
 ## Pendiente del estudio
 

@@ -10,8 +10,9 @@
  * - Singletons: los textos fijos de cada página, en JSON bajo src/content/paginas. Se
  *   importan tal cual desde las páginas, sin pasar por las colecciones de Astro.
  *
- * En desarrollo guarda en disco; en producción, en GitHub (hay que crear la GitHub App la
- * primera vez que se entra a /keystatic en la web publicada; ver README).
+ * En desarrollo guarda en disco; en producción, en GitHub. El modo GitHub necesita una
+ * GitHub App, y Keystatic solo deja crearla desde el servidor de desarrollo: para eso se
+ * arranca en local con PUBLIC_KEYSTATIC_GITHUB=true (ver README).
  */
 import { config, collection, singleton, fields } from "@keystatic/core";
 
@@ -25,9 +26,10 @@ const textoLargo = (label: string, description?: string) =>
     fields.text({ label, description, multiline: true });
 
 export default config({
-    storage: import.meta.env.PROD
-        ? { kind: "github", repo: "SkylerBoy/StoneStudio-Web" }
-        : { kind: "local" },
+    storage:
+        import.meta.env.PROD || import.meta.env.PUBLIC_KEYSTATIC_GITHUB === "true"
+            ? { kind: "github", repo: "SkylerBoy/StoneStudio-Web" }
+            : { kind: "local" },
 
     ui: {
         brand: { name: "Stone Studio" },
