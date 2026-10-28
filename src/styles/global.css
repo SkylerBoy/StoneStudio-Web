@@ -1,0 +1,90 @@
+/*
+ * Paleta «Stone» y tipografías. Colores neutros a propósito: el color lo ponen las fotos.
+ * Usa estos tokens (bg-background, text-muted, border-line…), no hexadecimales sueltos.
+ */
+@import "tailwindcss";
+@import "@fontsource/instrument-serif/400.css";
+@import "@fontsource/instrument-serif/400-italic.css";
+@import "@fontsource-variable/inter";
+
+@theme {
+    --color-background: #f4f1ec; /* hueso */
+    --color-surface: #e7e1d8; /* piedra clara */
+    --color-line: #d6cec2;
+    --color-text: #1c1b19; /* carbón */
+    --color-muted: #635c54; /* 5:1 también sobre surface */
+    /* Arcilla oscurecida: el #9a7b63 de la propuesta no llega a 4.5:1 sobre el fondo
+       para texto pequeño. El claro queda para detalles decorativos. */
+    --color-accent: #7a5d48;
+    --color-accent-soft: #9a7b63;
+
+    --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+    --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+    html {
+        @apply bg-background text-text font-sans antialiased;
+        scroll-behavior: smooth;
+    }
+
+    ::selection {
+        @apply bg-accent text-background;
+    }
+
+    :focus-visible {
+        @apply outline-2 outline-offset-2 outline-accent;
+    }
+}
+
+@layer components {
+    /* Ancho del contenido con márgenes laterales; las fotos a sangre no lo usan. */
+    .contenedor {
+        @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10;
+    }
+
+    .etiqueta {
+        @apply text-xs font-medium tracking-[0.18em] text-accent uppercase;
+    }
+
+    .titulo-display {
+        @apply font-serif leading-[1.05] tracking-tight text-balance;
+    }
+
+    .boton {
+        @apply inline-flex items-center gap-2 rounded-full bg-text px-6 py-3 text-sm font-medium text-background transition-colors hover:bg-accent;
+    }
+
+    .boton-secundario {
+        @apply inline-flex items-center gap-2 rounded-full border border-text px-6 py-3 text-sm font-medium transition-colors hover:bg-text hover:text-background;
+    }
+
+    .enlace {
+        @apply underline decoration-line decoration-1 underline-offset-4 transition-colors hover:decoration-accent;
+    }
+
+    /* Texto largo que viene del panel (proyectos, legales). */
+    .prosa {
+        @apply max-w-prose text-base leading-relaxed text-text;
+    }
+    .prosa p,
+    .prosa ul,
+    .prosa ol {
+        @apply mb-5;
+    }
+    .prosa h2 {
+        @apply mt-10 mb-4 font-serif text-3xl;
+    }
+    .prosa h3 {
+        @apply mt-8 mb-3 text-lg font-semibold;
+    }
+    .prosa ul {
+        @apply list-disc pl-5;
+    }
+    .prosa ol {
+        @apply list-decimal pl-5;
+    }
+    .prosa a {
+        @apply underline decoration-line decoration-1 underline-offset-4 hover:decoration-accent;
+    }
+}

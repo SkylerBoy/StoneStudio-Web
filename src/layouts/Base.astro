@@ -1,0 +1,93 @@
+---
+/**
+ * Plantilla común: <head> con SEO y Open Graph, cabecera y pie. Cada página pasa su título
+ * y descripción; la imagen para compartir es opcional (si no, se usa la de la portada).
+ */
+import "../styles/global.css";
+import { getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { obtenerProyectos } from "../lib/proyectos";
+import { ajustes } from "../lib/ajustes";
+
+interface Props {
+    titulo?: string;
+    descripcion?: string;
+    imagen?: ImageMetadata;
+    /** Cabecera transparente sobre la foto de la portada. */
+    cabeceraSobreFoto?: boolean;
+    /** Datos estructurados del negocio; solo en la portada. */
+    conDatosNegocio?: boolean;
+    noIndexar?: boolean;
+}
+
+const {
+    titulo,
+    descripcion = "Estudio de fotografía y edición. Fotografía de producto para marcas, bodas y eventos.",
+    imagen,
+    cabeceraSobreFoto = false,
+    conDatosNegocio = false,
+    noIndexar = false,
+} = Astro.props;
+
+const nombre = "Stone Studio";
+const tituloCompleto = titulo ? `${titulo} · ${nombre}` : `${nombre} · Fotografía y edición`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+const imagenBase = imagen ?? (await obtenerProyectos()).find((p) => p.data.destacado)?.data.portada;
+const og = imagenBase ? await getImage({ src: imagenBase, width: 1200, height: 630, format: "jpg" }) : undefined;
+const ogUrl = og ? new URL(og.src, Astro.site).href : undefined;
+
+const datosNegocio = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: nombre,
+    description: descripcion,
+    url: Astro.site?.href,
+    email: ajustes.email,
+    telephone: ajustes.telefono || undefined,
+    areaServed: ajustes.zona || undefined,
+    image: ogUrl,
+    sameAs: [ajustes.instagramUrl].filter(Boolean),
+};
+---
+
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{tituloCompleto}</title>
+        <meta name="description" content={descripcion} />
+        <link rel="canonical" href={canonical} />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="sitemap" href="/sitemap-index.xml" />
+        <meta name="theme-color" content="#f4f1ec" />
+        {noIndexar && <meta name="robots" content="noindex" />}
+
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="es_ES" />
+        <meta property="og:site_name" content={nombre} />
+        <meta property="og:title" content={tituloCompleto} />
+        <meta property="og:description" content={descripcion} />
+        <meta property="og:url" content={canonical} />
+        {ogUrl && <meta property="og:image" content={ogUrl} />}
+        <meta name="twitter:card" content="summary_large_image" />
+
+        {conDatosNegocio && <script type="application/ld+json" set:html={JSON.stringify(datosNegocio)} />}
+    </head>
+    <body class="flex min-h-dvh flex-col">
+        <a
+            href="#contenido"
+            class="sr-only z-50 rounded bg-text px-4 py-2 text-background focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
+        >
+            Saltar al contenido
+        </a>
+        <Header sobreFoto={cabeceraSobreFoto} />
+        <main id="contenido" class="flex-1">
+            <slot />
+        </main>
+        <Footer />
+    </body>
+</html>

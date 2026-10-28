@@ -1,0 +1,80 @@
+---
+/**
+ * Galería de un proyecto en mampostería (columnas CSS, respeta la proporción de cada foto)
+ * con visor a pantalla completa de PhotoSwipe. Sin JavaScript sigue funcionando: cada foto
+ * es un enlace a su versión grande.
+ */
+import { getImage, Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+    fotos: { imagen: ImageMetadata; alt: string }[];
+}
+const { fotos } = Astro.props;
+
+// Versión grande para el visor; 2400 px cubre pantallas retina sin pasarse de peso.
+const grandes = await Promise.all(
+    fotos.map(async ({ imagen }) => {
+        const ancho = Math.min(imagen.width, 2400);
+        const alto = Math.round((imagen.height * ancho) / imagen.width);
+        const img = await getImage({ src: imagen, width: ancho, format: "webp", quality: 82 });
+        return { src: img.src, ancho, alto };
+    }),
+);
+---
+
+<div class="galeria columns-1 gap-4 sm:columns-2 lg:gap-6" data-galeria>
+    {
+        fotos.map(({ imagen, alt }, i) => (
+            <a
+                href={grandes[i].src}
+                data-pswp-width={grandes[i].ancho}
+                data-pswp-height={grandes[i].alto}
+                class="mb-4 block cursor-zoom-in break-inside-avoid bg-surface lg:mb-6"
+            >
+                <Image
+                    src={imagen}
+                    alt={alt}
+                    widths={[600, 900, 1400]}
+                    sizes="(min-width: 640px) 50vw, 100vw"
+                    class="w-full"
+                />
+            </a>
+        ))
+    }
+</div>
+
+<script>
+    import PhotoSwipeLightbox from "photoswipe/lightbox";
+    import "photoswipe/style.css";
+
+    document.querySelectorAll<HTMLElement>("[data-galeria]").forEach((galeria) => {
+        const lightbox = new PhotoSwipeLightbox({
+            gallery: galeria,
+            children: "a",
+            pswpModule: () => import("photoswipe"),
+            bgOpacity: 0.96,
+            closeTitle: "Cerrar",
+            zoomTitle: "Ampliar",
+            arrowPrevTitle: "Anterior",
+            arrowNextTitle: "Siguiente",
+            errorMsg: "No se ha podido cargar la foto.",
+        });
+        lightbox.init();
+    });
+</script>
+
+<style is:global>
+    /* El visor sobre fondo hueso, a juego con la web, en vez del negro por defecto. Con
+       «html» delante para ganar al CSS de PhotoSwipe, que puede cargarse después. */
+    html .pswp {
+        --pswp-bg: var(--color-background);
+        --pswp-icon-color: var(--color-text);
+        --pswp-icon-color-secondary: var(--color-background);
+        --pswp-icon-stroke-color: var(--color-background);
+    }
+    html .pswp__counter {
+        color: var(--color-text);
+        text-shadow: none;
+    }
+</style>

@@ -1,0 +1,107 @@
+---
+/**
+ * Portada. Foto grande (la del primer proyecto destacado), dos entradas según quién llega
+ * (marcas o parejas/eventos: buscan cosas distintas) y una selección de trabajos.
+ */
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import TarjetaProyecto from "../components/TarjetaProyecto.astro";
+import { CATEGORIAS, obtenerProyectos, urlProyecto, type Categoria } from "../lib/proyectos";
+import inicio from "../content/paginas/inicio.json";
+
+const proyectos = await obtenerProyectos();
+const destacados = proyectos.filter((p) => p.data.destacado);
+const principal = destacados[0] ?? proyectos[0];
+// Primero los destacados y, si no llegan a tres, los más recientes.
+const seleccion = [...new Set([...destacados, ...proyectos])].filter((p) => p !== principal).slice(0, 3);
+
+// La foto de cada entrada es la del proyecto más reciente de esa categoría.
+const entradas = (["marcas", "eventos"] as Categoria[]).map((categoria) => ({
+    categoria,
+    ...CATEGORIAS[categoria],
+    texto: categoria === "marcas" ? inicio.marcasTexto : inicio.eventosTexto,
+    proyecto: proyectos.find((p) => p.data.categoria === categoria),
+}));
+---
+
+<Base cabeceraSobreFoto conDatosNegocio descripcion={inicio.subtitulo}>
+    <section class="relative flex h-dvh min-h-[560px] items-end overflow-hidden bg-text">
+        {
+            principal && (
+                <Image
+                    src={principal.data.portada}
+                    alt={principal.data.portadaAlt}
+                    widths={[800, 1400, 2000, 2800]}
+                    sizes="100vw"
+                    loading="eager"
+                    fetchpriority="high"
+                    class="absolute inset-0 h-full w-full object-cover"
+                />
+            )
+        }
+        <div class="absolute inset-0 bg-gradient-to-t from-text/70 via-text/20 to-text/30"></div>
+        <div class="contenedor relative pb-16 text-background sm:pb-24">
+            <h1 class="titulo-display max-w-4xl text-5xl sm:text-7xl lg:text-8xl">{inicio.titular}</h1>
+            <div class="mt-8 flex flex-wrap items-center gap-4">
+                <a href="/portfolio" class="boton bg-background text-text hover:bg-surface">Ver trabajos</a>
+                <a href="/presupuesto" class="rounded-full border border-background px-6 py-3 text-sm font-medium transition-colors hover:bg-background hover:text-text">
+                    Pedir presupuesto
+                </a>
+            </div>
+            {
+                principal && (
+                    <a href={urlProyecto(principal)} class="mt-10 inline-block text-xs tracking-wide opacity-80 hover:opacity-100">
+                        En la foto: {principal.data.titulo} →
+                    </a>
+                )
+            }
+        </div>
+    </section>
+
+    <section class="contenedor py-20 sm:py-28">
+        <p class="max-w-3xl font-serif text-3xl leading-snug text-balance sm:text-4xl">{inicio.subtitulo}</p>
+    </section>
+
+    <section class="contenedor grid gap-10 md:grid-cols-2 md:gap-6" aria-label="Servicios">
+        {
+            entradas.map((e) => (
+                <a href={e.servicio} class="group block">
+                    <div class="aspect-[4/5] overflow-hidden bg-surface sm:aspect-[5/4]">
+                        {e.proyecto && (
+                            <Image
+                                src={e.proyecto.data.portada}
+                                alt=""
+                                widths={[600, 900, 1300]}
+                                sizes="(min-width: 768px) 50vw, 100vw"
+                                class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                            />
+                        )}
+                    </div>
+                    <h2 class="mt-6 font-serif text-4xl sm:text-5xl">{e.nombre}</h2>
+                    <p class="mt-3 max-w-md text-muted">{e.texto}</p>
+                    <span class="mt-4 inline-block text-sm font-medium underline decoration-line underline-offset-4 group-hover:decoration-accent">
+                        Cómo trabajamos →
+                    </span>
+                </a>
+            ))
+        }
+    </section>
+
+    {
+        seleccion.length > 0 && (
+            <section class="contenedor pt-28">
+                <div class="mb-10 flex items-end justify-between gap-4">
+                    <h2 class="titulo-display text-4xl sm:text-6xl">Trabajos recientes</h2>
+                    <a href="/portfolio" class="enlace shrink-0 text-sm">
+                        Ver todo el portfolio
+                    </a>
+                </div>
+                <div class="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+                    {seleccion.map((p) => (
+                        <TarjetaProyecto proyecto={p} />
+                    ))}
+                </div>
+            </section>
+        )
+    }
+</Base>

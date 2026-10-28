@@ -1,0 +1,27 @@
+---
+/**
+ * Pestañas del portfolio. Son enlaces a páginas reales (/portfolio/marcas…), no un filtro
+ * en JavaScript: así cada categoría tiene su URL para compartir y para Google.
+ */
+import { CATEGORIAS } from "../lib/proyectos";
+
+const ruta = Astro.url.pathname.replace(/\/$/, "");
+const opciones = [
+    { href: "/portfolio", texto: "Todo" },
+    ...Object.entries(CATEGORIAS).map(([clave, c]) => ({ href: `/portfolio/${clave}`, texto: c.nombre })),
+];
+---
+
+<nav aria-label="Categorías del portfolio" class="mt-10 flex flex-wrap gap-2">
+    {
+        opciones.map((o) => (
+            <a
+                href={o.href}
+                aria-current={ruta === o.href ? "page" : undefined}
+                class="rounded-full border border-line px-4 py-2 text-sm transition-colors hover:border-text aria-[current=page]:border-text aria-[current=page]:bg-text aria-[current=page]:text-background"
+            >
+                {o.texto}
+            </a>
+        ))
+    }
+</nav>

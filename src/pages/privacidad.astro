@@ -1,0 +1,63 @@
+---
+/**
+ * Política de privacidad. Texto base que conviene que revise alguien con criterio legal
+ * antes de publicar; los datos del responsable están marcados como pendientes.
+ */
+import Base from "../layouts/Base.astro";
+import CabeceraPagina from "../components/CabeceraPagina.astro";
+import Pendiente from "../components/Pendiente.astro";
+import { ajustes } from "../lib/ajustes";
+---
+
+<Base titulo="Política de privacidad" noIndexar>
+    <CabeceraPagina titulo="Política de privacidad" />
+    <section class="contenedor prosa">
+        <h2>Responsable del tratamiento</h2>
+        <ul>
+            <li>Titular: <Pendiente>nombre y apellidos o razón social</Pendiente></li>
+            <li>NIF: <Pendiente>NIF o CIF</Pendiente></li>
+            <li>Domicilio: <Pendiente>dirección postal completa</Pendiente></li>
+            <li>Email: <a href={ajustes.mailto}>{ajustes.email}</a></li>
+        </ul>
+
+        <h2>Qué datos recogemos y para qué</h2>
+        <p>
+            Solo los que nos envías con el formulario de presupuesto (nombre, email, teléfono y los
+            detalles de tu proyecto) o por email y WhatsApp. Los usamos únicamente para responderte
+            y, si llegamos a un acuerdo, para gestionar el encargo.
+        </p>
+
+        <h2>Base legal</h2>
+        <p>
+            Tu consentimiento, que das al marcar la casilla del formulario, y, si nos contratas, la
+            ejecución del contrato.
+        </p>
+
+        <h2>Cuánto tiempo los guardamos</h2>
+        <p>
+            Mientras dure la conversación o el encargo y, después, el tiempo que exijan las
+            obligaciones legales (por ejemplo, fiscales).
+        </p>
+
+        <h2>Con quién los compartimos</h2>
+        <p>
+            Con nadie para fines comerciales. La web está alojada en Netlify, Inc., que recibe y
+            almacena los envíos del formulario como encargado del tratamiento. Netlify está en
+            Estados Unidos y está adherida al Marco de Privacidad de Datos UE-EE. UU.
+        </p>
+
+        <h2>Tus derechos</h2>
+        <p>
+            Puedes pedir acceder a tus datos, corregirlos, borrarlos, limitar su uso u oponerte a él,
+            y llevártelos a otro servicio, escribiendo a <a href={ajustes.mailto}>{ajustes.email}</a>.
+            Si crees que no los tratamos bien, puedes reclamar ante la Agencia Española de Protección
+            de Datos (<a href="https://www.aepd.es" rel="noopener">aepd.es</a>).
+        </p>
+
+        <h2>Cookies</h2>
+        <p>
+            Esta web no usa cookies de seguimiento ni de publicidad, y las fuentes y las fotos se
+            sirven desde el propio dominio, sin terceros.
+        </p>
+    </section>
+</Base>

@@ -1,0 +1,61 @@
+---
+import { ajustes } from "../lib/ajustes";
+const anio = new Date().getFullYear();
+---
+
+<footer class="mt-24 border-t border-line bg-surface">
+    <div class="contenedor grid gap-12 py-16 md:grid-cols-[2fr_1fr_1fr]">
+        <div>
+            <p class="titulo-display text-4xl sm:text-5xl">¿Hablamos de tu proyecto?</p>
+            <p class="mt-4 max-w-md text-muted">
+                Cuéntanos qué necesitas y te preparamos un presupuesto sin compromiso.
+            </p>
+            <a href="/presupuesto" class="boton mt-8">Pedir presupuesto</a>
+        </div>
+
+        <div>
+            <h2 class="etiqueta mb-4">Contacto</h2>
+            <ul class="space-y-2 text-sm">
+                <li><a class="enlace" href={ajustes.mailto}>{ajustes.email}</a></li>
+                {ajustes.tel && <li><a class="enlace" href={ajustes.tel}>{ajustes.telefono}</a></li>}
+                {
+                    ajustes.whatsappUrl && (
+                        <li>
+                            <a class="enlace" href={ajustes.whatsappUrl} rel="noopener" target="_blank">
+                                WhatsApp
+                            </a>
+                        </li>
+                    )
+                }
+                {
+                    ajustes.instagramUrl && (
+                        <li>
+                            <a class="enlace" href={ajustes.instagramUrl} rel="noopener" target="_blank">
+                                Instagram · @{ajustes.instagram}
+                            </a>
+                        </li>
+                    )
+                }
+                {ajustes.zona && <li class="text-muted">{ajustes.zona}</li>}
+            </ul>
+        </div>
+
+        <div>
+            <h2 class="etiqueta mb-4">Estudio</h2>
+            <ul class="space-y-2 text-sm">
+                <li><a class="enlace" href="/portfolio">Portfolio</a></li>
+                <li><a class="enlace" href="/marcas">Marcas y producto</a></li>
+                <li><a class="enlace" href="/bodas-y-eventos">Bodas y eventos</a></li>
+                <li><a class="enlace" href="/estudio">Sobre nosotros</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="contenedor flex flex-col gap-2 border-t border-line py-6 text-xs text-muted sm:flex-row sm:justify-between">
+        <p>© {anio} Stone Studio. Fotografía y edición.</p>
+        <p class="flex gap-4">
+            <a class="enlace" href="/aviso-legal">Aviso legal</a>
+            <a class="enlace" href="/privacidad">Privacidad</a>
+        </p>
+    </div>
+</footer>

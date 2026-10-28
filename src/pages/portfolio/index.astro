@@ -1,0 +1,18 @@
+---
+import Base from "../../layouts/Base.astro";
+import CabeceraPagina from "../../components/CabeceraPagina.astro";
+import FiltroCategorias from "../../components/FiltroCategorias.astro";
+import TarjetaProyecto from "../../components/TarjetaProyecto.astro";
+import { obtenerProyectos } from "../../lib/proyectos";
+
+const proyectos = await obtenerProyectos();
+---
+
+<Base titulo="Portfolio" descripcion="Trabajos de Stone Studio: fotografía de producto para marcas, bodas y eventos.">
+    <CabeceraPagina etiqueta="Portfolio" titulo="Trabajos seleccionados">
+        <FiltroCategorias />
+    </CabeceraPagina>
+    <section class="contenedor grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+        {proyectos.map((p, i) => <TarjetaProyecto proyecto={p} prioridad={i < 3} />)}
+    </section>
+</Base>

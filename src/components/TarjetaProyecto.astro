@@ -1,0 +1,37 @@
+---
+import { Image } from "astro:assets";
+import { CATEGORIAS, urlProyecto, type Proyecto } from "../lib/proyectos";
+
+interface Props {
+    proyecto: Proyecto;
+    /** Formato de la foto: vertical para rejillas, apaisado para destacados. */
+    formato?: "vertical" | "apaisado";
+    /** Las tarjetas que se ven sin hacer scroll cargan de inmediato. */
+    prioridad?: boolean;
+}
+const { proyecto, formato = "vertical", prioridad = false } = Astro.props;
+const { titulo, categoria, resumen, portada, portadaAlt } = proyecto.data;
+---
+
+<article class="group">
+    <a href={urlProyecto(proyecto)} class="block">
+        <div
+            class:list={[
+                "overflow-hidden bg-surface",
+                formato === "vertical" ? "aspect-[4/5]" : "aspect-[3/2]",
+            ]}
+        >
+            <Image
+                src={portada}
+                alt={portadaAlt}
+                widths={[480, 800, 1200]}
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                loading={prioridad ? "eager" : "lazy"}
+                class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            />
+        </div>
+        <p class="etiqueta mt-4">{CATEGORIAS[categoria].nombre}</p>
+        <h3 class="mt-1 font-serif text-3xl">{titulo}</h3>
+        <p class="mt-2 line-clamp-2 text-sm text-muted">{resumen}</p>
+    </a>
+</article>

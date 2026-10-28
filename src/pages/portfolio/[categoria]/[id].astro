@@ -1,0 +1,94 @@
+---
+import type { GetStaticPaths } from "astro";
+import { Image } from "astro:assets";
+import { render } from "astro:content";
+import Base from "../../../layouts/Base.astro";
+import Galeria from "../../../components/Galeria.astro";
+import { CATEGORIAS, fechaLegible, obtenerProyectos, urlProyecto, type Proyecto } from "../../../lib/proyectos";
+
+export const getStaticPaths = (async () => {
+    const proyectos = await obtenerProyectos();
+    return proyectos.map((proyecto, i) => ({
+        params: { categoria: proyecto.data.categoria, id: proyecto.id },
+        // El siguiente da la vuelta al principio para que siempre haya uno que ver.
+        props: { proyecto, siguiente: proyectos[(i + 1) % proyectos.length] },
+    }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+    proyecto: Proyecto;
+    siguiente: Proyecto;
+}
+const { proyecto, siguiente } = Astro.props;
+const { titulo, categoria, cliente, lugar, fecha, resumen, portada, portadaAlt, galeria } = proyecto.data;
+const { Content } = await render(proyecto);
+const tieneTexto = Boolean(proyecto.body?.trim());
+
+const ficha = [
+    { nombre: "Cliente", valor: cliente },
+    { nombre: "Lugar", valor: lugar },
+    { nombre: "Fecha", valor: fechaLegible(fecha) },
+].filter((f) => f.valor);
+---
+
+<Base titulo={titulo} descripcion={resumen} imagen={portada}>
+    <article>
+        <header class="contenedor pt-16 pb-10 sm:pt-24">
+            <a href={`/portfolio/${categoria}`} class="etiqueta hover:underline">{CATEGORIAS[categoria].nombre}</a>
+            <h1 class="titulo-display mt-4 max-w-4xl text-5xl sm:text-7xl">{titulo}</h1>
+            <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">{resumen}</p>
+        </header>
+
+        <div class="contenedor">
+            <Image
+                src={portada}
+                alt={portadaAlt}
+                widths={[800, 1400, 2000, 2800]}
+                sizes="(min-width: 1280px) 1200px, 100vw"
+                loading="eager"
+                fetchpriority="high"
+                class="w-full bg-surface"
+            />
+        </div>
+
+        <div class="contenedor grid gap-10 py-14 md:grid-cols-[1fr_2fr]">
+            <dl class="grid h-fit grid-cols-2 gap-6 text-sm md:grid-cols-1">
+                {
+                    ficha.map((f) => (
+                        <div>
+                            <dt class="etiqueta">{f.nombre}</dt>
+                            <dd class="mt-1">{f.valor}</dd>
+                        </div>
+                    ))
+                }
+            </dl>
+            {
+                tieneTexto && (
+                    <div class="prosa">
+                        <Content />
+                    </div>
+                )
+            }
+        </div>
+
+        {
+            galeria.length > 0 && (
+                <div class="contenedor">
+                    <Galeria fotos={galeria} />
+                </div>
+            )
+        }
+    </article>
+
+    <nav aria-label="Más proyectos" class="contenedor mt-20 flex flex-col gap-6 border-t border-line pt-10 sm:flex-row sm:items-end sm:justify-between">
+        {
+            siguiente.id !== proyecto.id && (
+                <a href={urlProyecto(siguiente)} class="group">
+                    <span class="etiqueta">Siguiente proyecto</span>
+                    <span class="mt-2 block font-serif text-4xl group-hover:underline sm:text-5xl">{siguiente.data.titulo} →</span>
+                </a>
+            )
+        }
+        <a href="/presupuesto" class="boton self-start sm:self-auto">Quiero algo así</a>
+    </nav>
+</Base>

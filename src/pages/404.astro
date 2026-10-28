@@ -1,0 +1,15 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base titulo="Página no encontrada" noIndexar>
+    <section class="contenedor py-24 sm:py-36">
+        <p class="etiqueta">Error 404</p>
+        <h1 class="titulo-display mt-4 max-w-3xl text-5xl sm:text-7xl">Esta página no existe.</h1>
+        <p class="mt-6 max-w-xl text-lg text-muted">Puede que la dirección esté mal escrita o que la hayamos movido.</p>
+        <div class="mt-10 flex flex-wrap gap-4">
+            <a href="/" class="boton">Ir al inicio</a>
+            <a href="/portfolio" class="boton-secundario">Ver el portfolio</a>
+        </div>
+    </section>
+</Base>

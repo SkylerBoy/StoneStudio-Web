@@ -1,0 +1,44 @@
+---
+import Base from "../layouts/Base.astro";
+import CabeceraPagina from "../components/CabeceraPagina.astro";
+import TarjetaProyecto from "../components/TarjetaProyecto.astro";
+import { obtenerProyectos } from "../lib/proyectos";
+import marcas from "../content/paginas/marcas.json";
+
+const proyectos = (await obtenerProyectos("marcas")).slice(0, 3);
+---
+
+<Base titulo="Marcas y producto" descripcion={marcas.intro}>
+    <CabeceraPagina etiqueta="Marcas y producto" titulo={marcas.titular} intro={marcas.intro}>
+        <a href="/presupuesto?servicio=marcas" class="boton mt-10">Pedir presupuesto</a>
+    </CabeceraPagina>
+
+    <section class="contenedor" aria-labelledby="titulo-servicios">
+        <h2 id="titulo-servicios" class="sr-only">Servicios</h2>
+        <ol class="grid border-t border-line sm:grid-cols-2">
+            {
+                marcas.servicios.map((s, i) => (
+                    <li class="border-b border-line py-10 sm:odd:pr-10 sm:even:border-l sm:even:pl-10">
+                        <span class="font-serif text-xl text-accent">{String(i + 1).padStart(2, "0")}</span>
+                        <h3 class="mt-2 font-serif text-4xl">{s.nombre}</h3>
+                        <p class="mt-3 max-w-md text-muted">{s.descripcion}</p>
+                    </li>
+                ))
+            }
+        </ol>
+    </section>
+
+    {
+        proyectos.length > 0 && (
+            <section class="contenedor pt-28">
+                <div class="mb-10 flex items-end justify-between gap-4">
+                    <h2 class="titulo-display text-4xl sm:text-6xl">Algunos trabajos</h2>
+                    <a href="/portfolio/marcas" class="enlace shrink-0 text-sm">Ver todos</a>
+                </div>
+                <div class="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+                    {proyectos.map((p) => <TarjetaProyecto proyecto={p} />)}
+                </div>
+            </section>
+        )
+    }
+</Base>

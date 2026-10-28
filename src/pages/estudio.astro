@@ -1,0 +1,49 @@
+---
+import Base from "../layouts/Base.astro";
+import CabeceraPagina from "../components/CabeceraPagina.astro";
+import estudio from "../content/paginas/estudio.json";
+import { ajustes } from "../lib/ajustes";
+
+// El panel guarda la historia como texto plano; los párrafos van separados por una línea
+// en blanco.
+const parrafos = estudio.historia
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+---
+
+<Base titulo="El estudio" descripcion={parrafos[0]}>
+    <CabeceraPagina etiqueta="El estudio" titulo={estudio.titular} />
+
+    <section class="contenedor grid gap-16 md:grid-cols-[2fr_1fr]">
+        <div class="prosa text-lg">
+            {parrafos.map((p) => <p>{p}</p>)}
+        </div>
+
+        <aside class="space-y-10">
+            {
+                estudio.equipo.length > 0 && (
+                    <div>
+                        <h2 class="etiqueta mb-4">Equipo</h2>
+                        <ul class="space-y-4">
+                            {estudio.equipo.map((m) => (
+                                <li>
+                                    <p class="font-serif text-2xl">{m.nombre}</p>
+                                    <p class="text-sm text-muted">{m.rol}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )
+            }
+            {
+                ajustes.zona && (
+                    <div>
+                        <h2 class="etiqueta mb-2">Dónde trabajamos</h2>
+                        <p>{ajustes.zona}</p>
+                    </div>
+                )
+            }
+        </aside>
+    </section>
+</Base>

@@ -1,0 +1,32 @@
+---
+import type { GetStaticPaths } from "astro";
+import Base from "../../../layouts/Base.astro";
+import CabeceraPagina from "../../../components/CabeceraPagina.astro";
+import FiltroCategorias from "../../../components/FiltroCategorias.astro";
+import TarjetaProyecto from "../../../components/TarjetaProyecto.astro";
+import { CATEGORIAS, obtenerProyectos, type Categoria } from "../../../lib/proyectos";
+
+export const getStaticPaths = (() =>
+    (Object.keys(CATEGORIAS) as Categoria[]).map((categoria) => ({ params: { categoria } }))) satisfies GetStaticPaths;
+
+const categoria = Astro.params.categoria as Categoria;
+const { nombre, servicio } = CATEGORIAS[categoria];
+const proyectos = await obtenerProyectos(categoria);
+---
+
+<Base titulo={`Portfolio · ${nombre}`} descripcion={`Trabajos de Stone Studio en ${nombre.toLowerCase()}.`}>
+    <CabeceraPagina etiqueta="Portfolio" titulo={nombre}>
+        <FiltroCategorias />
+    </CabeceraPagina>
+    <section class="contenedor grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+        {proyectos.map((p, i) => <TarjetaProyecto proyecto={p} prioridad={i < 3} />)}
+    </section>
+    {
+        proyectos.length === 0 && (
+            <p class="contenedor text-muted">Pronto habrá trabajos en esta categoría.</p>
+        )
+    }
+    <p class="contenedor mt-16">
+        <a href={servicio} class="enlace">Cómo trabajamos en {nombre.toLowerCase()} →</a>
+    </p>
+</Base>

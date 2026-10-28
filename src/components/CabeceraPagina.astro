@@ -1,0 +1,15 @@
+---
+interface Props {
+    etiqueta?: string;
+    titulo: string;
+    intro?: string;
+}
+const { etiqueta, titulo, intro } = Astro.props;
+---
+
+<section class="contenedor pt-16 pb-12 sm:pt-24 sm:pb-16">
+    {etiqueta && <p class="etiqueta mb-4">{etiqueta}</p>}
+    <h1 class="titulo-display max-w-4xl text-5xl sm:text-7xl">{titulo}</h1>
+    {intro && <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">{intro}</p>}
+    <slot />
+</section>
